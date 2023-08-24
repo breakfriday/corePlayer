@@ -474,13 +474,17 @@ class TransmuxingController {
     }
 
     _onIOException(type, info) {
+        debugger
         Log.e(this.TAG, `IOException: type = ${type}, code = ${info.code}, msg = ${info.msg}`);
+        debugger
         this._emitter.emit(TransmuxingEvents.IO_ERROR, type, info);
         this._disableStatisticsReporter();
     }
 
     _onDemuxException(type, info) {
+        debugger
         Log.e(this.TAG, `DemuxException: type = ${type}, info = ${info}`);
+        debugger
         this._emitter.emit(TransmuxingEvents.DEMUX_ERROR, type, info);
     }
 

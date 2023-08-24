@@ -149,6 +149,8 @@ class TSDemuxer extends BaseDemuxer {
         this.ts_packet_size_ = probe_data.ts_packet_size;
         this.sync_offset_ = probe_data.sync_offset;
         this.config_ = config;
+
+        debugger
     }
 
     public destroy() {
@@ -235,6 +237,8 @@ class TSDemuxer extends BaseDemuxer {
     }
 
     public parseChunks(chunk: ArrayBuffer, byte_start: number): number {
+
+        debugger
         if (!this.onError
                 || !this.onMediaInfo
                 || !this.onTrackMetadata
@@ -1772,11 +1776,14 @@ class TSDemuxer extends BaseDemuxer {
     }
 
     private dispatchAudioInitSegment(sample: AudioData) {
+        debugger
         let meta: any = {};
         meta.type = 'audio';
         meta.id = this.audio_track_.id;
         meta.timescale = 1000;
         meta.duration = this.duration_;
+
+        debugger
 
         if (this.audio_metadata_.codec === 'aac') {
             let aac_frame = sample.codec === 'aac' ? sample.data : null;

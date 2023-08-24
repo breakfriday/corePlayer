@@ -25,6 +25,10 @@ import {IllegalStateException} from '../utils/exception.js';
 import H265Parser from './h265-parser.js';
 import buffersAreEqual from '../utils/typedarray-equality.ts';
 import AV1OBUParser from './av1-parser.ts';
+import PCMPlayer from './auidoPlayer.js';
+
+import  { decodeAlaw} from './parsePcm.js'
+import { settings } from 'cluster';
 
 function Swap16(src) {
     return (((src >>> 8) & 0xFF) |
@@ -46,6 +50,23 @@ function ReadBig32(array, index) {
 }
 
 
+
+ const sampleRate = 44100; 
+
+
+ window.pmcPlayer= new PCMPlayer({
+    encoding: '16bitInt',
+    channels: 1,
+    sampleRate: sampleRate,
+    flushingTime: 1000
+});
+
+
+// debugger
+
+
+
+
 class FLVDemuxer {
 
     constructor(probeData, config) {
@@ -64,7 +85,7 @@ class FLVDemuxer {
         this._firstParse = true;
         this._dispatch = false;
 
-        this._hasAudio = probeData.hasAudioTrack;
+        this._hasAudio = false;
         this._hasVideo = probeData.hasVideoTrack;
 
         this._hasAudioFlagOverrided = false;
@@ -217,6 +238,7 @@ class FLVDemuxer {
     }
 
     set onDataAvailable(callback) {
+        debugger
         this._onDataAvailable = callback;
     }
 
@@ -276,6 +298,8 @@ class FLVDemuxer {
         if (!this._onError || !this._onMediaInfo || !this._onTrackMetadata || !this._onDataAvailable) {
             throw new IllegalStateException('Flv: onError & onMediaInfo & onTrackMetadata & onDataAvailable callback must be specified');
         }
+
+        debugger
 
         let offset = 0;
         let le = this._littleEndian;
@@ -492,7 +516,34 @@ class FLVDemuxer {
         let soundSpec = v.getUint8(0);
 
         let soundFormat = soundSpec >>> 4;
+
+        if(soundFormat== 7){
+
+   
+
+            let pcmData =new Uint8Array(arrayBuffer, dataOffset, dataSize);
+        
+            pcmData=decodeAlaw(pcmData)
+
+
+
+            
+
+            debugger
+          window.pmcPlayer.feed(pcmData)
+          debugger
+
+
+          
+
+            
+            
+        }
+
+
         if (soundFormat !== 2 && soundFormat !== 10) {  // MP3 or AAC
+
+            debugger
             this._onError(DemuxErrors.CODEC_UNSUPPORTED, 'Flv: Unsupported audio codec idx: ' + soundFormat);
             return;
         }
@@ -572,6 +623,8 @@ class FLVDemuxer {
                 mi.audioChannelCount = meta.channelCount;
                 if (mi.hasVideo) {
                     if (mi.videoCodec != null) {
+
+                        debugger
                         mi.mimeType = 'video/x-flv; codecs="' + mi.videoCodec + ',' + mi.audioCodec + '"';
                     }
                 } else {
@@ -1086,6 +1139,7 @@ class FLVDemuxer {
             mi.sarNum = meta.sarRatio.width;
             mi.sarDen = meta.sarRatio.height;
             mi.videoCodec = codecString;
+            mi.hasAudio=false
 
             if (mi.hasAudio) {
                 if (mi.audioCodec != null) {
