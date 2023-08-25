@@ -217,6 +217,8 @@ class MSEPlayer {
             this._msectl.appendInitSegment(is);
         });
         this._transmuxer.on(TransmuxingEvents.MEDIA_SEGMENT, (type, ms) => {
+
+            debugger
             this._msectl.appendMediaSegment(ms);
 
             // lazyLoad check
@@ -241,13 +243,16 @@ class MSEPlayer {
             this._emitter.emit(PlayerEvents.ERROR, ErrorTypes.NETWORK_ERROR, detail, info);
         });
         this._transmuxer.on(TransmuxingEvents.DEMUX_ERROR, (detail, info) => {
+            debugger
             this._emitter.emit(PlayerEvents.ERROR, ErrorTypes.MEDIA_ERROR, detail, {code: -1, msg: info});
         });
         this._transmuxer.on(TransmuxingEvents.MEDIA_INFO, (mediaInfo) => {
             this._mediaInfo = mediaInfo;
+            debugger
             this._emitter.emit(PlayerEvents.MEDIA_INFO, Object.assign({}, mediaInfo));
         });
         this._transmuxer.on(TransmuxingEvents.METADATA_ARRIVED, (metadata) => {
+            debugger
             this._emitter.emit(PlayerEvents.METADATA_ARRIVED, metadata);
         });
         this._transmuxer.on(TransmuxingEvents.SCRIPTDATA_ARRIVED, (data) => {

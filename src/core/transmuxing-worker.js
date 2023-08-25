@@ -119,6 +119,7 @@ let TransmuxingWorker = function (self) {
                 data: mediaSegment
             }
         };
+        debugger
         self.postMessage(obj, [mediaSegment.data]);  // data: ArrayBuffer
     }
 
@@ -219,6 +220,8 @@ let TransmuxingWorker = function (self) {
     }
 
     function onDemuxError(type, info) {
+
+        debugger
         self.postMessage({
             msg: TransmuxingEvents.DEMUX_ERROR,
             data: {

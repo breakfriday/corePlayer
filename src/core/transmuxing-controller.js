@@ -497,6 +497,8 @@ class TransmuxingController {
             // Media segments after new-segment cross-seeking should be dropped.
             return;
         }
+
+        debugger
         this._emitter.emit(TransmuxingEvents.MEDIA_SEGMENT, type, mediaSegment);
 
         // Resolve pending seekPoint

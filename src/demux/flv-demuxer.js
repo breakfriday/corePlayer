@@ -389,6 +389,8 @@ class FLVDemuxer {
         // dispatch parsed frames to consumer (typically, the remuxer)
         if (this._isInitialMetadataDispatched()) {
             if (this._dispatch && (this._audioTrack.length || this._videoTrack.length)) {
+
+                debugger
                 this._onDataAvailable(this._audioTrack, this._videoTrack);
             }
         }
@@ -621,6 +623,8 @@ class FLVDemuxer {
                 mi.audioCodec = meta.originalCodec;
                 mi.audioSampleRate = meta.audioSampleRate;
                 mi.audioChannelCount = meta.channelCount;
+
+                debugger
                 if (mi.hasVideo) {
                     if (mi.videoCodec != null) {
 
