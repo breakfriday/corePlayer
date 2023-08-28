@@ -1,12 +1,12 @@
 {
-  "name": "mpegts.js",
-  "version": "1.7.3",
-  "description": "HTML5 MPEG2-TS Stream Player",
+  "name": "streamcanvasx-core",
+  "version": "0.0.1",
+  "description": " Stream Player core",
   "main": "./dist/mpegts.js",
   "types": "./d.ts/mpegts.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xqq/mpegts.js"
+    "url": "git@github.com:breakfriday/corePlayer.git "
   },
   "keywords": [
     "html5",
@@ -50,6 +50,5 @@
     "socket.io-parser": ">=3.3.3",
     "minimist": ">=1.2.6"
   },
-  "author": "zheng qian <xqq@xqq.im>",
-  "license": "Apache-2.0"
+  "license": "MIT"
 }

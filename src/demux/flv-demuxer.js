@@ -85,7 +85,7 @@ class FLVDemuxer {
         this._firstParse = true;
         this._dispatch = false;
 
-        this._hasAudio = false;
+        this._hasAudio = probeData.hasAudioTrack;
         this._hasVideo = probeData.hasVideoTrack;
 
         this._hasAudioFlagOverrided = false;
@@ -299,7 +299,7 @@ class FLVDemuxer {
             throw new IllegalStateException('Flv: onError & onMediaInfo & onTrackMetadata & onDataAvailable callback must be specified');
         }
 
-        debugger
+        // debugger
 
         let offset = 0;
         let le = this._littleEndian;
@@ -519,31 +519,12 @@ class FLVDemuxer {
 
         let soundFormat = soundSpec >>> 4;
 
-        if(soundFormat== 7){
 
-   
-
-            let pcmData =new Uint8Array(arrayBuffer, dataOffset, dataSize);
-        
-            pcmData=decodeAlaw(pcmData)
+        // this is pcm  aduio
+    
 
 
-
-            
-
-            debugger
-          window.pmcPlayer.feed(pcmData)
-          debugger
-
-
-          
-
-            
-            
-        }
-
-
-        if (soundFormat !== 2 && soundFormat !== 10) {  // MP3 or AAC
+        if (soundFormat !== 2 && soundFormat !== 10&&soundFormat!=7) {  // MP3 or AAC
 
             debugger
             this._onError(DemuxErrors.CODEC_UNSUPPORTED, 'Flv: Unsupported audio codec idx: ' + soundFormat);
@@ -580,6 +561,31 @@ class FLVDemuxer {
             meta.duration = this._duration;
             meta.audioSampleRate = soundRate;
             meta.channelCount = (soundType === 0 ? 1 : 2);
+            debugger
+        }
+
+        if(soundFormat== 7){
+
+            // let pcmData =new Uint8Array(arrayBuffer, dataOffset, dataSize);
+            // pcmData=decodeAlaw(pcmData)
+            //  debugger
+            // window.pmcPlayer.feed(pcmData)
+            //  debugger
+            this._audioInitialMetadataDispatched = true;
+            let pcmData =new Uint8Array(arrayBuffer, dataOffset, dataSize);
+            pcmData=decodeAlaw(pcmData)
+
+             window.pmcPlayer.feed(pcmData)
+
+            // debugger
+          
+
+            let pcmSample = {unit:  pcmData, length:  pcmData, dts: "", pts: ""};
+            track.samples.push(pcmSample);
+
+            track.length= pcmData.length;
+            // debugger
+            
         }
 
         if (soundFormat === 10) {  // AAC
@@ -610,7 +616,8 @@ class FLVDemuxer {
                 if (this._isInitialMetadataDispatched()) {
                     // Non-initial metadata, force dispatch (or flush) parsed frames to remuxer
                     if (this._dispatch && (this._audioTrack.length || this._videoTrack.length)) {
-                        this._onDataAvailable(this._audioTrack, this._videoTrack);
+                        debugger
+                        this._onDataAvailable(this._audioTrack, this._videoTrack);// AAC
                     }
                 } else {
                     this._audioInitialMetadataDispatched = true;
@@ -635,6 +642,7 @@ class FLVDemuxer {
                     mi.mimeType = 'video/x-flv; codecs="' + mi.audioCodec + '"';
                 }
                 if (mi.isComplete()) {
+                    debugger
                     this._onMediaInfo(mi);
                 }
             } else if (aacData.packetType === 1) {  // AAC raw frame data
@@ -1143,7 +1151,7 @@ class FLVDemuxer {
             mi.sarNum = meta.sarRatio.width;
             mi.sarDen = meta.sarRatio.height;
             mi.videoCodec = codecString;
-            mi.hasAudio=false
+            
 
             if (mi.hasAudio) {
                 if (mi.audioCodec != null) {
@@ -1186,6 +1194,7 @@ class FLVDemuxer {
         if (this._isInitialMetadataDispatched()) {
             // flush parsed frames
             if (this._dispatch && (this._audioTrack.length || this._videoTrack.length)) {
+                debugger
                 this._onDataAvailable(this._audioTrack, this._videoTrack);
             }
         } else {
@@ -1322,6 +1331,7 @@ class FLVDemuxer {
         if (this._isInitialMetadataDispatched()) {
             // flush parsed frames
             if (this._dispatch && (this._audioTrack.length || this._videoTrack.length)) {
+                debugger
                 this._onDataAvailable(this._audioTrack, this._videoTrack);
             }
         } else {
@@ -1425,6 +1435,7 @@ class FLVDemuxer {
         if (this._isInitialMetadataDispatched()) {
             // flush parsed frames
             if (this._dispatch && (this._audioTrack.length || this._videoTrack.length)) {
+                debugger
                 this._onDataAvailable(this._audioTrack, this._videoTrack);
             }
         } else {

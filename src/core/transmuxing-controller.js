@@ -248,6 +248,7 @@ class TransmuxingController {
 
             // Try probing input data as FLV first
             probeData = FLVDemuxer.probe(data);
+            debugger
             if (probeData.match) {
                 // Hit as FLV
                 this._setupFLVDemuxerRemuxer(probeData);
@@ -257,6 +258,7 @@ class TransmuxingController {
             if (!probeData.match && !probeData.needMoreData) {
                 // Non-FLV, try MPEG-TS probe
                 probeData = TSDemuxer.probe(data);
+                debugger
                 if (probeData.match) {
                     // Hit as MPEG-TS
                     this._setupTSDemuxerRemuxer(probeData);
@@ -500,6 +502,7 @@ class TransmuxingController {
 
         debugger
         this._emitter.emit(TransmuxingEvents.MEDIA_SEGMENT, type, mediaSegment);
+        debugger
 
         // Resolve pending seekPoint
         if (this._pendingResolveSeekPoint != null && type === 'video') {

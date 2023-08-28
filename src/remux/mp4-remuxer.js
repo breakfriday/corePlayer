@@ -23,7 +23,7 @@ import Browser from '../utils/browser.js';
 import { SampleInfo, MediaSegmentInfo, MediaSegmentInfoList } from '../core/media-segment-info.js';
 import { IllegalStateException } from '../utils/exception.js';
 
-
+import PCMPlayer from './auidoPlayer.js';
 // Fragmented mp4 remuxer
 class MP4Remuxer {
 
@@ -83,7 +83,13 @@ class MP4Remuxer {
     bindDataSource(producer) {
         producer.onDataAvailable = this.remux.bind(this);
         producer.onTrackMetadata = this._onTrackMetadataReceived.bind(this);
+
+        debugger
         return this;
+    }
+
+    initAudioPlayer(){
+
     }
 
     /* prototype: function onInitSegment(type: string, initSegment: ArrayBuffer): void
@@ -130,6 +136,21 @@ class MP4Remuxer {
     }
 
     remux(audioTrack, videoTrack) {
+        const concatBuffers = (buffers) => {
+            // 计算所有缓冲区的总长度
+            const buffer = new Uint8Array(
+              buffers.reduce((acc, buf) => acc + buf.length, 0),
+            );
+
+            // 填充新的 Uint8Array:
+            buffers.reduce((offset, buf) => {
+              buffer.set(buf, offset);
+              return offset + buf.length;
+            }, 0);
+
+            return buffer;
+          };
+
         if (!this._onMediaSegment) {
             throw new IllegalStateException('MP4Remuxer: onMediaSegment callback must be specificed!');
         }
@@ -140,6 +161,18 @@ class MP4Remuxer {
             this._remuxVideo(videoTrack);
         }
         if (audioTrack) {
+
+            let buffers=audioTrack.samples.map((v)=>{return v.unit})
+
+            debugger
+
+            let buffer=concatBuffers(buffers)
+
+            // if( window.pmcPlayer.feed){
+            //     window.pmcPlayer.feed(buffer)
+            // }
+
+      
             this._remuxAudio(audioTrack);
         }
     }
@@ -147,6 +180,7 @@ class MP4Remuxer {
     _onTrackMetadataReceived(type, metadata) {
         let metabox = null;
 
+        debugger
         let container = 'mp4';
         let codec = metadata.codec;
 
@@ -243,6 +277,7 @@ class MP4Remuxer {
 
     _remuxAudio(audioTrack, force) {
         if (this._audioMeta == null) {
+            debugger
             return;
         }
 
@@ -567,6 +602,7 @@ class MP4Remuxer {
             segment.timestampOffset = firstDts;
         }
 
+        debugger
         this._onMediaSegment('audio', segment);
     }
 
