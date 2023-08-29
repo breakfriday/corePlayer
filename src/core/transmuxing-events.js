@@ -32,7 +32,9 @@ const TransmuxingEvents = {
     PES_PRIVATE_DATA_DESCRIPTOR: 'pes_private_data_descriptor',
     PES_PRIVATE_DATA_ARRIVED: 'pes_private_data_arrived',
     STATISTICS_INFO: 'statistics_info',
-    RECOMMEND_SEEKPOINT: 'recommend_seekpoint'
+    RECOMMEND_SEEKPOINT: 'recommend_seekpoint',
+    AUDIO_SEGMENT:"audio_segment"
+
 };
 
 export default TransmuxingEvents;

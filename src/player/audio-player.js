@@ -8,12 +8,12 @@ class PCMPlayer {
             encoding: '16bitInt',
             channels: 1,
             sampleRate: 8000,
-            flushingTime: 1000
+            flushingTime: 200
         };
         this.option = Object.assign({}, defaults, option);
         this.samples = new Float32Array();
         this.flush = this.flush.bind(this);
-        this.interval = setInterval(this.flush, this.option.flushingTime);
+        this.interval = setInterval(this.flush, 100);
         this.maxValue = this.getMaxValue();
         this.typedArray = this.getTypedArray();
         this.createContext();

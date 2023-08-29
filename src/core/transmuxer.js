@@ -69,6 +69,7 @@ class Transmuxer {
             ctl.on(TransmuxingEvents.PES_PRIVATE_DATA_ARRIVED, this._onPESPrivateDataArrived.bind(this));
             ctl.on(TransmuxingEvents.STATISTICS_INFO, this._onStatisticsInfo.bind(this));
             ctl.on(TransmuxingEvents.RECOMMEND_SEEKPOINT, this._onRecommendSeekpoint.bind(this));
+            ctl.on(TransmuxingEvents.AUDIO_SEGMENT, this._onAudioBuffer.bind(this));
         }
     }
 
@@ -151,6 +152,14 @@ class Transmuxer {
         Promise.resolve().then(() => {
             this._emitter.emit(TransmuxingEvents.MEDIA_SEGMENT, type, mediaSegment);
         });
+    }
+
+    _onAudioBuffer(type, mediaSegment) {
+        debugger
+    //     Promise.resolve().then(() => {
+    //         this._emitter.emit(TransmuxingEvents.AUDIO_SEGMENT, type, mediaSegment);
+    //     });
+    // }
     }
 
     _onLoadingComplete() {

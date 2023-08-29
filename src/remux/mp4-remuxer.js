@@ -121,8 +121,18 @@ class MP4Remuxer {
     }
 
     set onMediaSegment(callback) {
+        debugger
         this._onMediaSegment = callback;
     }
+
+    get  onAudioBuffer(){
+        return this._onAudioBuffer;
+    }
+    set onAudioBuffer(callback){
+        this._onAudioBuffer=callback
+    }
+
+    
 
     insertDiscontinuity() {
         this._audioNextDts = this._videoNextDts = undefined;
@@ -277,6 +287,8 @@ class MP4Remuxer {
 
     _remuxAudio(audioTrack, force) {
         if (this._audioMeta == null) {
+
+            this._onAudioBuffer('audio',audioTrack)
             debugger
             return;
         }

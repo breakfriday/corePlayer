@@ -312,6 +312,7 @@ class TransmuxingController {
 
         this._remuxer.onInitSegment = this._onRemuxerInitSegmentArrival.bind(this);
         this._remuxer.onMediaSegment = this._onRemuxerMediaSegmentArrival.bind(this);
+        this._remuxer.onAudioBuffer = this._onAudioBufferArrival.bind(this);
     }
 
     _setupTSDemuxerRemuxer(probeData) {
@@ -494,6 +495,13 @@ class TransmuxingController {
         this._emitter.emit(TransmuxingEvents.INIT_SEGMENT, type, initSegment);
     }
 
+    _onAudioBufferArrival(type='audio',buffers){
+
+        debugger
+
+        this._emitter.emit(TransmuxingEvents.AUDIO_SEGMENT,type, buffers);
+
+    }
     _onRemuxerMediaSegmentArrival(type, mediaSegment) {
         if (this._pendingSeekTime != null) {
             // Media segments after new-segment cross-seeking should be dropped.

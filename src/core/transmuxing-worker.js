@@ -248,6 +248,13 @@ let TransmuxingWorker = function (self) {
         });
     }
 
+    function onAduioData(data) {
+        self.postMessage({
+            msg: TransmuxingEvents.AUDIODATA_ARRIVED,
+            data: data
+        });
+    }
+
 };
 
 export default TransmuxingWorker;
