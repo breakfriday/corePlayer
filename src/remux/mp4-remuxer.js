@@ -288,7 +288,12 @@ class MP4Remuxer {
     _remuxAudio(audioTrack, force) {
         if (this._audioMeta == null) {
 
-            this._onAudioBuffer('audio',audioTrack)
+            debugger
+
+            let _audioTrack=Object.assign({},audioTrack)
+            this._onAudioBuffer('audio',_audioTrack)
+            audioTrack.samples=[]
+
             debugger
             return;
         }

@@ -28,6 +28,8 @@ import {ErrorTypes, ErrorDetails} from './player-errors.js';
 import {createDefaultConfig} from '../config.js';
 import {InvalidArgumentException, IllegalStateException} from '../utils/exception.js';
 
+import PCMPlayer from './audio-player.js';
+
 class MSEPlayer {
 
     constructor(mediaDataSource, config) {
@@ -91,6 +93,18 @@ class MSEPlayer {
         if (this._alwaysSeekKeyframe) {
             this._config.accurateSeek = false;
         }
+    }
+
+    initAudioPlayer(){
+
+        this.audioPlayer=new PCMPlayer({
+            encoding: '16bitInt',
+            channels: 1,
+            sampleRate: 8000,
+            flushingTime: 200
+        });
+        
+        
     }
 
     destroy() {
@@ -216,6 +230,26 @@ class MSEPlayer {
         this._transmuxer.on(TransmuxingEvents.INIT_SEGMENT, (type, is) => {
             this._msectl.appendInitSegment(is);
         });
+        this._transmuxer.on(TransmuxingEvents.AUDIO_SEGMENT, (type, audioTrack) => {
+
+            debugger
+
+            if(!!this.audioPlayer==false){
+                this.initAudioPlayer()
+
+            }
+
+
+            let buffers=audioTrack.samples.map((v)=>{return v.unit})
+         
+
+            buffers.forEach((audioData)=>{
+                this.audioPlayer.feed(audioData)
+            })
+            
+         
+
+        })
         this._transmuxer.on(TransmuxingEvents.MEDIA_SEGMENT, (type, ms) => {
 
             debugger

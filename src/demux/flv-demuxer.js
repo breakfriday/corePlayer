@@ -575,13 +575,15 @@ class FLVDemuxer {
             let pcmData =new Uint8Array(arrayBuffer, dataOffset, dataSize);
             pcmData=decodeAlaw(pcmData)
 
-             window.pmcPlayer.feed(pcmData)
+            // window.pmcPlayer.feed(pcmData)
 
             // debugger
           
 
             let pcmSample = {unit:  pcmData, length:  pcmData, dts: "", pts: ""};
             track.samples.push(pcmSample);
+
+            debugger
 
             track.length= pcmData.length;
             // debugger

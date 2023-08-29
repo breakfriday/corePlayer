@@ -156,11 +156,11 @@ class Transmuxer {
 
     _onAudioBuffer(type, mediaSegment) {
         debugger
-    //     Promise.resolve().then(() => {
-    //         this._emitter.emit(TransmuxingEvents.AUDIO_SEGMENT, type, mediaSegment);
-    //     });
-    // }
+        Promise.resolve().then(() => {
+            this._emitter.emit(TransmuxingEvents.AUDIO_SEGMENT, type, mediaSegment);
+        });
     }
+   
 
     _onLoadingComplete() {
         Promise.resolve().then(() => {
