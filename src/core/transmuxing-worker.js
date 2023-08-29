@@ -63,6 +63,7 @@ let TransmuxingWorker = function (self) {
                 controller.on(TransmuxingEvents.PES_PRIVATE_DATA_ARRIVED, onPESPrivateDataArrived.bind(this));
                 controller.on(TransmuxingEvents.STATISTICS_INFO, onStatisticsInfo.bind(this));
                 controller.on(TransmuxingEvents.RECOMMEND_SEEKPOINT, onRecommendSeekpoint.bind(this));
+                controller.on(TransmuxingEvents.AUDIO_SEGMENT, this._onAudioBuffer.bind(this));
                 break;
             case 'destroy':
                 if (controller) {
@@ -248,11 +249,19 @@ let TransmuxingWorker = function (self) {
         });
     }
 
-    function onAduioData(data) {
-        self.postMessage({
-            msg: TransmuxingEvents.AUDIODATA_ARRIVED,
-            data: data
-        });
+    function onAduioSegment(type, mediaSegment) {
+
+        let obj = {
+            msg: TransmuxingEvents.AUDIO_SEGMENT,
+            data: {
+                type: type,
+                data: mediaSegment
+            }
+        };
+
+        debugger
+
+        //self.postMessage(obj, [mediaSegment.data]);  // data: ArrayBuffer
     }
 
 };

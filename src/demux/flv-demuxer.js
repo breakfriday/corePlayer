@@ -25,7 +25,7 @@ import {IllegalStateException} from '../utils/exception.js';
 import H265Parser from './h265-parser.js';
 import buffersAreEqual from '../utils/typedarray-equality.ts';
 import AV1OBUParser from './av1-parser.ts';
-import PCMPlayer from './auidoPlayer.js';
+//import PCMPlayer from './auidoPlayer.js';
 
 import  { decodeAlaw} from './parsePcm.js'
 import { settings } from 'cluster';
@@ -51,15 +51,15 @@ function ReadBig32(array, index) {
 
 
 
- const sampleRate = 44100; 
+//  const sampleRate = 44100; 
 
 
- window.pmcPlayer= new PCMPlayer({
-    encoding: '16bitInt',
-    channels: 1,
-    sampleRate: sampleRate,
-    flushingTime: 1000
-});
+//  window.pmcPlayer= new PCMPlayer({
+//     encoding: '16bitInt',
+//     channels: 1,
+//     sampleRate: sampleRate,
+//     flushingTime: 1000
+// });
 
 
 // debugger
