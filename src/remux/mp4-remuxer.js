@@ -286,15 +286,45 @@ class MP4Remuxer {
     }
 
     _remuxAudio(audioTrack, force) {
+        const concatBuffers = (buffers) => {
+            // 计算所有缓冲区的总长度
+            const buffer = new Uint8Array(
+              buffers.reduce((acc, buf) => acc + buf.length, 0),
+            );
+
+            // 填充新的 Uint8Array:
+            buffers.reduce((offset, buf) => {
+              buffer.set(buf, offset);
+              return offset + buf.length;
+            }, 0);
+
+            return buffer;
+          };
+
         if (this._audioMeta == null) {
 
-            debugger
+            // debugger
 
             let _audioTrack=Object.assign({},audioTrack)
-            this._onAudioBuffer('audio',_audioTrack)
+
+            let buffers=_audioTrack.samples.map((v)=>{return v.unit})
+
+            let audioBuffer=concatBuffers(buffers)
+
+
+            let segment = {
+                type: 'audio',
+                data: audioBuffer.buffer,
+                info: {}
+            };
+
+       
+            // debugger
+
+            this._onAudioBuffer('audio', segment)
             audioTrack.samples=[]
 
-            debugger
+            // debugger
             return;
         }
 
@@ -619,7 +649,7 @@ class MP4Remuxer {
             segment.timestampOffset = firstDts;
         }
 
-        debugger
+        // debugger
         this._onMediaSegment('audio', segment);
     }
 

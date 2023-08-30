@@ -248,7 +248,7 @@ class TransmuxingController {
 
             // Try probing input data as FLV first
             probeData = FLVDemuxer.probe(data);
-            debugger
+            // debugger
             if (probeData.match) {
                 // Hit as FLV
                 this._setupFLVDemuxerRemuxer(probeData);
@@ -258,7 +258,7 @@ class TransmuxingController {
             if (!probeData.match && !probeData.needMoreData) {
                 // Non-FLV, try MPEG-TS probe
                 probeData = TSDemuxer.probe(data);
-                debugger
+                // debugger
                 if (probeData.match) {
                     // Hit as MPEG-TS
                     this._setupTSDemuxerRemuxer(probeData);
@@ -477,17 +477,17 @@ class TransmuxingController {
     }
 
     _onIOException(type, info) {
-        debugger
+        // debugger
         Log.e(this.TAG, `IOException: type = ${type}, code = ${info.code}, msg = ${info.msg}`);
-        debugger
+        // debugger
         this._emitter.emit(TransmuxingEvents.IO_ERROR, type, info);
         this._disableStatisticsReporter();
     }
 
     _onDemuxException(type, info) {
-        debugger
+        // debugger
         Log.e(this.TAG, `DemuxException: type = ${type}, info = ${info}`);
-        debugger
+        // debugger
         this._emitter.emit(TransmuxingEvents.DEMUX_ERROR, type, info);
     }
 
@@ -497,7 +497,9 @@ class TransmuxingController {
 
     _onAudioBufferArrival(type='audio',buffers){
 
-        debugger
+        //console.log(' _onAudioBufferArrival')
+
+        // debugger
 
         this._emitter.emit(TransmuxingEvents.AUDIO_SEGMENT,type, buffers);
 
@@ -508,9 +510,9 @@ class TransmuxingController {
             return;
         }
 
-        debugger
+        // debugger
         this._emitter.emit(TransmuxingEvents.MEDIA_SEGMENT, type, mediaSegment);
-        debugger
+        // debugger
 
         // Resolve pending seekPoint
         if (this._pendingResolveSeekPoint != null && type === 'video') {

@@ -52,7 +52,7 @@
         <textarea style="display: none;" name="logcatbox" class="logcatBox" rows="10" readonly></textarea>
     </div>
 
-    <script src="../dist/mpegts.js"></script>
+    <script src="../dist/mpegts.js"></script>[]
     
     <script>
         var checkBoxFields = ['isLive', 'withCredentials', 'liveBufferLatencyChasing'];
@@ -98,7 +98,7 @@
                 }
             }
             player = mpegts.createPlayer(mediaDataSource, {
-                enableWorker: false,
+                enableWorker: true,
                 lazyLoadMaxDuration: 3 * 60,
                 seekType: 'range',
                 liveBufferLatencyChasing: document.getElementById('liveBufferLatencyChasing').checked,

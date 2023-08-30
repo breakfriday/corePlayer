@@ -157,6 +157,8 @@ class Transmuxer {
     _onAudioBuffer(type, mediaSegment) {
         debugger
         Promise.resolve().then(() => {
+
+            debugger
             this._emitter.emit(TransmuxingEvents.AUDIO_SEGMENT, type, mediaSegment);
         });
     }
@@ -253,6 +255,7 @@ class Transmuxer {
     }
 
     _onWorkerMessage(e) {
+        debugger
         let message = e.data;
         let data = message.data;
 
@@ -266,6 +269,13 @@ class Transmuxer {
         switch (message.msg) {
             case TransmuxingEvents.INIT_SEGMENT:
             case TransmuxingEvents.MEDIA_SEGMENT:
+                console.log(12121212)
+                debugger
+                this._emitter.emit(message.msg, data.type, data.data);
+                break;
+            case "audio_segment":
+                console.log(1212121212)
+                debugger
                 this._emitter.emit(message.msg, data.type, data.data);
                 break;
             case TransmuxingEvents.LOADING_COMPLETE:

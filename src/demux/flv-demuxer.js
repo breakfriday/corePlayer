@@ -238,7 +238,7 @@ class FLVDemuxer {
     }
 
     set onDataAvailable(callback) {
-        debugger
+        // debugger
         this._onDataAvailable = callback;
     }
 
@@ -390,7 +390,7 @@ class FLVDemuxer {
         if (this._isInitialMetadataDispatched()) {
             if (this._dispatch && (this._audioTrack.length || this._videoTrack.length)) {
 
-                debugger
+                // debugger
                 this._onDataAvailable(this._audioTrack, this._videoTrack);
             }
         }
@@ -526,7 +526,7 @@ class FLVDemuxer {
 
         if (soundFormat !== 2 && soundFormat !== 10&&soundFormat!=7) {  // MP3 or AAC
 
-            debugger
+            // debugger
             this._onError(DemuxErrors.CODEC_UNSUPPORTED, 'Flv: Unsupported audio codec idx: ' + soundFormat);
             return;
         }
@@ -561,7 +561,7 @@ class FLVDemuxer {
             meta.duration = this._duration;
             meta.audioSampleRate = soundRate;
             meta.channelCount = (soundType === 0 ? 1 : 2);
-            debugger
+            // debugger
         }
 
         if(soundFormat== 7){
@@ -583,7 +583,7 @@ class FLVDemuxer {
             let pcmSample = {unit:  pcmData, length:  pcmData, dts: "", pts: ""};
             track.samples.push(pcmSample);
 
-            debugger
+            // debugger
 
             track.length= pcmData.length;
             // debugger

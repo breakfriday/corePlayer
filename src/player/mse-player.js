@@ -230,8 +230,12 @@ class MSEPlayer {
         this._transmuxer.on(TransmuxingEvents.INIT_SEGMENT, (type, is) => {
             this._msectl.appendInitSegment(is);
         });
-        this._transmuxer.on(TransmuxingEvents.AUDIO_SEGMENT, (type, audioTrack) => {
+        this._transmuxer.on(TransmuxingEvents.AUDIO_SEGMENT, (type, audioBuffer) => {
 
+             debugger
+
+             audioBuffer= new Uint8Array(audioBuffer);
+ 
             debugger
 
             if(!!this.audioPlayer==false){
@@ -240,12 +244,14 @@ class MSEPlayer {
             }
 
 
-            let buffers=audioTrack.samples.map((v)=>{return v.unit})
+            // let buffers=audioTrack.samples.map((v)=>{return v.unit})
          
 
-            buffers.forEach((audioData)=>{
-                this.audioPlayer.feed(audioData)
-            })
+            // buffers.forEach((audioData)=>{
+            //     this.audioPlayer.feed(audioData)
+            // })
+
+            this.audioPlayer.feed(audioBuffer)
             
          
 
