@@ -252,6 +252,9 @@ class MSEPlayer {
             // })
 
             this.audioPlayer.feed(audioBuffer)
+
+
+            this._emitter.emit("audio_segment",audioBuffer);
             
          
 
