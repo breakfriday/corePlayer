@@ -269,12 +269,12 @@ class Transmuxer {
         switch (message.msg) {
             case TransmuxingEvents.INIT_SEGMENT:
             case TransmuxingEvents.MEDIA_SEGMENT:
-                console.log(12121212)
+                // console.log(12121212)
                 debugger
                 this._emitter.emit(message.msg, data.type, data.data);
                 break;
             case "audio_segment":
-                console.log(1212121212)
+                // console.log(1212121212)
                 debugger
                 this._emitter.emit(message.msg, data.type, data.data);
                 break;
